@@ -1,0 +1,12 @@
+Conference Registration & Submission Management System
+My role. Full-Stack Developer
+
+Project description.
+
+Developed a web-based conference management platform for handling participant registrations, paper submissions, moderation workflows, status tracking, and Excel exports. The system provides administrators with advanced filtering, application review tools, and centralized management of academic conference submissions.
+Skills and deliverables
+
+React
+Laravel
+PostgreSQL
+Linux

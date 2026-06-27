@@ -1,0 +1,12 @@
+Online Olympiad & Proctoring Platform
+My role. Full-Stack Developer
+
+Project description.
+
+Developed a web-based olympiad and online examination platform with participant registration, automated testing, result management, and integrated proctoring. The system supports multi-stage competitions, subject management, real-time monitoring, webcam recording, user analytics, and administrative dashboards.
+Skills and deliverables
+
+Laravel
+React
+PostgreSQL
+Linux

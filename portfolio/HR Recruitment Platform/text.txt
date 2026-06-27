@@ -1,0 +1,12 @@
+HR Recruitment Platform
+My role. Full-Stack Developer
+
+Project description.
+
+Developed an AI-powered recruitment platform for Almaty Technological University. The system allows candidates to browse vacancies, submit applications, upload documents, and communicate through an intelligent chatbot. Implemented user authentication, application tracking, document management, administrative dashboards, and AI-assisted candidate support. Built REST APIs and integrated modern web technologies to improve recruitment workflows and user experience.
+Skills and deliverables
+
+Laravel
+Vue.js
+PostgreSQL
+REST API

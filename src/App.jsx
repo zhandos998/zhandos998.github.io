@@ -1,20 +1,54 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import profilePhoto from "./assets/profile.png";
 import vscodeMark from "./assets/vscode-mark.svg";
 import { resume } from "./data/resume";
+
+const olympiadPreview = new URL(
+  "../portfolio/Online Olympiad & Proctoring Platform/Administrator dashboard for creating and managing olympiads, registrations, and competition workflows.png",
+  import.meta.url,
+).href;
+
+const recruitmentPreview = new URL(
+  "../portfolio/HR Recruitment Platform/Recruitment Management Dashboard for handling candidate applications, document review, voting workflows, and hiring processes.png",
+  import.meta.url,
+).href;
+
+const conferencePreview = new URL(
+  "../portfolio/Conference Registration & Submission Management System/Administrative dashboard for managing conference registrations, paper submissions, moderation workflows and reporting tools.png",
+  import.meta.url,
+).href;
+
+const projectPreviewMap = {
+  "Online Olympiad & Proctoring Platform": olympiadPreview,
+  "HR Recruitment Platform": recruitmentPreview,
+  "Conference Registration & Submission Management System": conferencePreview,
+};
 
 function PhpIcon() {
   const gradientId = useId();
 
   return (
     <svg viewBox="0 0 128 128" aria-hidden="true">
-      <path fill={`url(#${gradientId})`} d="M0 64c0 18.593 28.654 33.667 64 33.667 35.346 0 64-15.074 64-33.667 0-18.593-28.655-33.667-64-33.667C28.654 30.333 0 45.407 0 64Z" />
-      <path fill="#777bb3" d="M64 95.167c33.965 0 61.5-13.955 61.5-31.167 0-17.214-27.535-31.167-61.5-31.167S2.5 46.786 2.5 64c0 17.212 27.535 31.167 61.5 31.167Z" />
+      <path
+        fill={`url(#${gradientId})`}
+        d="M0 64c0 18.593 28.654 33.667 64 33.667 35.346 0 64-15.074 64-33.667 0-18.593-28.655-33.667-64-33.667C28.654 30.333 0 45.407 0 64Z"
+      />
+      <path
+        fill="#777bb3"
+        d="M64 95.167c33.965 0 61.5-13.955 61.5-31.167 0-17.214-27.535-31.167-61.5-31.167S2.5 46.786 2.5 64c0 17.212 27.535 31.167 61.5 31.167Z"
+      />
       <path
         d="M34.772 67.864c2.793 0 4.877-.515 6.196-1.53 1.306-1.006 2.207-2.747 2.68-5.175.44-2.27.272-3.854-.5-4.71-.788-.874-2.493-1.317-5.067-1.317h-4.464l-2.473 12.732zM20.173 83.547a.694.694 0 0 1-.68-.828l6.557-33.738a.695.695 0 0 1 .68-.561h14.134c4.442 0 7.748 1.206 9.827 3.585 2.088 2.39 2.734 5.734 1.917 9.935-.333 1.711-.905 3.3-1.7 4.724a15.818 15.818 0 0 1-3.128 3.92c-1.531 1.432-3.264 2.472-5.147 3.083-1.852.604-4.232.91-7.07.91h-5.724l-1.634 8.408a.695.695 0 0 1-.682.562zM69.459 74.577a.694.694 0 0 1-.682-.827l2.9-14.928c.277-1.42.209-2.438-.19-2.87-.245-.263-.979-.704-3.15-.704h-5.256l-3.646 18.768a.695.695 0 0 1-.683.56h-7.29a.695.695 0 0 1-.683-.826l6.558-33.739a.695.695 0 0 1 .682-.561h7.29a.695.695 0 0 1 .683.826L64.41 48.42h5.653c4.307 0 7.227.758 8.928 2.321 1.733 1.593 2.275 4.14 1.608 7.573l-3.051 15.702a.695.695 0 0 1-.682.56h-7.407zM92.136 67.864c2.793 0 4.878-.515 6.198-1.53 1.304-1.006 2.206-2.747 2.679-5.175.44-2.27.273-3.854-.5-4.71-.788-.874-2.493-1.317-5.067-1.317h-4.463l-2.475 12.732zM77.54 83.547a.694.694 0 0 1-.682-.828l6.557-33.738a.695.695 0 0 1 .682-.561H98.23c4.442 0 7.748 1.206 9.826 3.585 2.089 2.39 2.734 5.734 1.917 9.935a15.878 15.878 0 0 1-1.699 4.724 15.838 15.838 0 0 1-3.128 3.92c-1.53 1.432-3.265 2.472-5.147 3.083-1.852.604-4.232.91-7.071.91h-5.723l-1.633 8.408a.695.695 0 0 1-.683.562z"
         fill="#111111"
       />
       <defs>
-        <radialGradient id={gradientId} cx="0" cy="0" r="1" gradientTransform="matrix(84.04136 0 0 84.04136 38.426 42.169)" gradientUnits="userSpaceOnUse">
+        <radialGradient
+          id={gradientId}
+          cx="0"
+          cy="0"
+          r="1"
+          gradientTransform="matrix(84.04136 0 0 84.04136 38.426 42.169)"
+          gradientUnits="userSpaceOnUse">
           <stop stopColor="#AEB2D5" />
           <stop offset=".3" stopColor="#AEB2D5" />
           <stop offset=".75" stopColor="#484C89" />
@@ -29,7 +63,10 @@ function JsIcon() {
   return (
     <svg viewBox="0 0 128 128" aria-hidden="true">
       <path fill="#F0DB4F" d="M1.408 1.408h125.184v125.185H1.408z" />
-      <path fill="#323330" d="M116.347 96.736c-.917-5.711-4.641-10.508-15.672-14.981-3.832-1.761-8.104-3.022-9.377-5.926-.452-1.69-.512-2.642-.226-3.665.821-3.32 4.784-4.355 7.925-3.403 2.023.678 3.938 2.237 5.093 4.724 5.402-3.498 5.391-3.475 9.163-5.879-1.381-2.141-2.118-3.129-3.022-4.045-3.249-3.629-7.676-5.498-14.756-5.355l-3.688.477c-3.534.893-6.902 2.748-8.877 5.235-5.926 6.724-4.236 18.492 2.975 23.335 7.104 5.332 17.54 6.545 18.873 11.531 1.297 6.104-4.486 8.08-10.234 7.378-4.236-.881-6.592-3.034-9.139-6.949-4.688 2.713-4.688 2.713-9.508 5.485 1.143 2.499 2.344 3.63 4.26 5.795 9.068 9.198 31.76 8.746 35.83-5.176.165-.478 1.261-3.666.38-8.581zM69.462 58.943H57.753l-.048 30.272c0 6.438.333 12.34-.714 14.149-1.713 3.558-6.152 3.117-8.175 2.427-2.059-1.012-3.106-2.451-4.319-4.485-.333-.584-.583-1.036-.667-1.071l-9.52 5.83c1.583 3.249 3.915 6.069 6.902 7.901 4.462 2.678 10.459 3.499 16.731 2.059 4.082-1.189 7.604-3.652 9.448-7.401 2.666-4.915 2.094-10.864 2.07-17.444.06-10.735.001-21.468.001-32.237z" />
+      <path
+        fill="#323330"
+        d="M116.347 96.736c-.917-5.711-4.641-10.508-15.672-14.981-3.832-1.761-8.104-3.022-9.377-5.926-.452-1.69-.512-2.642-.226-3.665.821-3.32 4.784-4.355 7.925-3.403 2.023.678 3.938 2.237 5.093 4.724 5.402-3.498 5.391-3.475 9.163-5.879-1.381-2.141-2.118-3.129-3.022-4.045-3.249-3.629-7.676-5.498-14.756-5.355l-3.688.477c-3.534.893-6.902 2.748-8.877 5.235-5.926 6.724-4.236 18.492 2.975 23.335 7.104 5.332 17.54 6.545 18.873 11.531 1.297 6.104-4.486 8.08-10.234 7.378-4.236-.881-6.592-3.034-9.139-6.949-4.688 2.713-4.688 2.713-9.508 5.485 1.143 2.499 2.344 3.63 4.26 5.795 9.068 9.198 31.76 8.746 35.83-5.176.165-.478 1.261-3.666.38-8.581zM69.462 58.943H57.753l-.048 30.272c0 6.438.333 12.34-.714 14.149-1.713 3.558-6.152 3.117-8.175 2.427-2.059-1.012-3.106-2.451-4.319-4.485-.333-.584-.583-1.036-.667-1.071l-9.52 5.83c1.583 3.249 3.915 6.069 6.902 7.901 4.462 2.678 10.459 3.499 16.731 2.059 4.082-1.189 7.604-3.652 9.448-7.401 2.666-4.915 2.094-10.864 2.07-17.444.06-10.735.001-21.468.001-32.237z"
+      />
     </svg>
   );
 }
@@ -187,36 +224,12 @@ const themes = [
 ];
 
 const files = [
-  {
-    id: "home",
-    label: "home.php",
-    icon: <PhpIcon />,
-  },
-  {
-    id: "about",
-    label: "about.js",
-    icon: <JsIcon />,
-  },
-  {
-    id: "experience",
-    label: "experience.py",
-    icon: <PythonIcon />,
-  },
-  {
-    id: "projects",
-    label: "projects.json",
-    icon: <JsonIcon />,
-  },
-  {
-    id: "contact",
-    label: "contact.jsx",
-    icon: <ReactIcon />,
-  },
-  {
-    id: "readme",
-    label: "README.md",
-    icon: <MarkdownIcon />,
-  },
+  { id: "home", label: "home.php", icon: <PhpIcon /> },
+  { id: "about", label: "about.js", icon: <JsIcon /> },
+  { id: "experience", label: "experience.py", icon: <PythonIcon /> },
+  { id: "projects", label: "projects.json", icon: <JsonIcon /> },
+  { id: "contact", label: "contact.jsx", icon: <ReactIcon /> },
+  { id: "readme", label: "README.md", icon: <MarkdownIcon /> },
 ];
 
 const activityItems = [
@@ -229,8 +242,8 @@ const activityItems = [
         height="22"
         fill="none"
         stroke="currentColor"
-        stroke-width="1.4">
-        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        strokeWidth="1.4">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
       </svg>
     ),
   },
@@ -243,9 +256,9 @@ const activityItems = [
         height="22"
         fill="none"
         stroke="currentColor"
-        stroke-width="1.4">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.35-4.35"></path>
+        strokeWidth="1.4">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
       </svg>
     ),
   },
@@ -258,17 +271,13 @@ const activityItems = [
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round">
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round">
         <circle cx="7.5" cy="4.5" r="2.25" />
-
         <circle cx="7.5" cy="19.5" r="2.25" />
-
         <circle cx="16.5" cy="7.5" r="2.25" />
-
         <line x1="7.5" y1="17.25" x2="7.5" y2="6.75" />
-
         <path d="M16.5 9.75c0 6-9 2.25-9 7.5" />
       </svg>
     ),
@@ -292,20 +301,229 @@ const activityItems = [
   },
 ];
 
+const languageOptions = [
+  { id: "ru", label: "RU", name: "Русский" },
+  { id: "kz", label: "KZ", name: "Қазақша" },
+  { id: "en", label: "EN", name: "English" },
+];
+
+const uiText = {
+  ru: {
+    explorer: "Проводник",
+    portfolio: "Портфолио",
+    links: "ссылки",
+    about: "Обо мне",
+    experience: "Опыт",
+    projects: "Проекты",
+    contact: "Контакты",
+    education: "Образование",
+    summary: "Кратко",
+    languages: "Языки",
+    stack: "Стек",
+    email: "Email",
+    phone: "Телефон",
+    telegram: "Telegram",
+    whatsapp: "WhatsApp",
+    location: "Локация",
+    website: "Сайт",
+    github: "GitHub",
+    openGithub: "открыть github",
+    sendEmail: "написать на почту",
+    openProject: "открыть проект →",
+    live: "preview",
+    heroKicker: "Портфолио / резюме Full Stack Developer",
+    terminal: "ТЕРМИНАЛ",
+    terminalOpen: "terminal: открыт",
+    terminalClosed: "terminal: закрыт",
+    nameField: "name",
+    roleField: "role",
+    languagesField: "languages",
+    topSkillsField: "top skills",
+    statusField: "status",
+    locationField: "location",
+    preferredChannelField: "preferred_channel",
+    close: "Закрыть",
+    minimize: "Свернуть",
+    maximize: "Развернуть",
+    enterFullscreen: "На весь экран",
+    exitFullscreen: "Выйти из полного экрана",
+    toggleExplorer: "Показать или скрыть проводник",
+    toggleTerminal: "Показать или скрыть терминал",
+    addressBar: "Адресная строка",
+    startConversation: "$ ./start-conversation",
+    terminalCommand: "$ npm run profile",
+    activityExplorer: "Проводник",
+    activitySearch: "Поиск",
+    activityGit: "Git",
+    activityResume: "Резюме",
+  },
+  kz: {
+    explorer: "Шолғыш",
+    portfolio: "Портфолио",
+    links: "сілтемелер",
+    about: "Мен туралы",
+    experience: "Тәжірибе",
+    projects: "Жобалар",
+    contact: "Байланыс",
+    education: "Білім",
+    summary: "Қысқаша",
+    languages: "Тілдер",
+    stack: "Стек",
+    email: "Email",
+    phone: "Телефон",
+    telegram: "Telegram",
+    whatsapp: "WhatsApp",
+    location: "Орналасуы",
+    website: "Сайт",
+    github: "GitHub",
+    openGithub: "github ашу",
+    sendEmail: "email жіберу",
+    openProject: "жобаны ашу →",
+    live: "preview",
+    heroKicker: "Full Stack Developer портфолиосы / түйіндеме",
+    terminal: "ТЕРМИНАЛ",
+    terminalOpen: "terminal: ашық",
+    terminalClosed: "terminal: жабық",
+    nameField: "name",
+    roleField: "role",
+    languagesField: "languages",
+    topSkillsField: "top skills",
+    statusField: "status",
+    locationField: "location",
+    preferredChannelField: "preferred_channel",
+    close: "Жабу",
+    minimize: "Жию",
+    maximize: "Үлкейту",
+    enterFullscreen: "Толық экран",
+    exitFullscreen: "Толық экраннан шығу",
+    toggleExplorer: "Шолғышты көрсету немесе жасыру",
+    toggleTerminal: "Терминалды көрсету немесе жасыру",
+    addressBar: "Мекенжай жолағы",
+    startConversation: "$ ./start-conversation",
+    terminalCommand: "$ npm run profile",
+    activityExplorer: "Шолғыш",
+    activitySearch: "Іздеу",
+    activityGit: "Git",
+    activityResume: "Резюме",
+  },
+  en: {
+    explorer: "Explorer",
+    portfolio: "Portfolio",
+    links: "links",
+    about: "About",
+    experience: "Experience",
+    projects: "Projects",
+    contact: "Contact",
+    education: "Education",
+    summary: "Summary",
+    languages: "Languages",
+    stack: "Stack",
+    email: "Email",
+    phone: "Phone",
+    telegram: "Telegram",
+    whatsapp: "WhatsApp",
+    location: "Location",
+    website: "Website",
+    github: "GitHub",
+    openGithub: "open github",
+    sendEmail: "send email",
+    openProject: "open project →",
+    live: "preview",
+    heroKicker: "Full Stack Developer portfolio / resume",
+    terminal: "TERMINAL",
+    terminalOpen: "terminal: open",
+    terminalClosed: "terminal: closed",
+    nameField: "name",
+    roleField: "role",
+    languagesField: "languages",
+    topSkillsField: "top skills",
+    statusField: "status",
+    locationField: "location",
+    preferredChannelField: "preferred_channel",
+    close: "Close",
+    minimize: "Minimize",
+    maximize: "Maximize",
+    enterFullscreen: "Enter Fullscreen",
+    exitFullscreen: "Exit Fullscreen",
+    toggleExplorer: "Toggle Explorer",
+    toggleTerminal: "Toggle Terminal",
+    addressBar: "Address bar",
+    startConversation: "$ ./start-conversation",
+    terminalCommand: "$ npm run profile",
+    activityExplorer: "Explorer",
+    activitySearch: "Search",
+    activityGit: "Git",
+    activityResume: "Resume",
+  },
+};
+
+function getInitialLanguage() {
+  if (typeof window === "undefined") {
+    return "ru";
+  }
+
+  try {
+    const savedLanguage = window.localStorage.getItem("portfolio-language");
+
+    if (languageOptions.some((item) => item.id === savedLanguage)) {
+      return savedLanguage;
+    }
+  } catch {
+    return "ru";
+  }
+
+  return "ru";
+}
+
+function projectTabLabel(projectName) {
+  if (projectName === "Online Olympiad & Proctoring Platform") {
+    return "olympiad.case";
+  }
+
+  if (projectName === "HR Recruitment Platform") {
+    return "recruitment.case";
+  }
+
+  if (
+    projectName === "Conference Registration & Submission Management System"
+  ) {
+    return "conference.case";
+  }
+
+  return "project.case";
+}
+
 function App() {
   const [activeFile, setActiveFile] = useState("home");
   const [openTabs, setOpenTabs] = useState(["home"]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(true);
   const [themeId, setThemeId] = useState("vscode-dark");
+  const [languageId, setLanguageId] = useState(getInitialLanguage);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const currentFile = files.find((file) => file.id === activeFile) ?? files[0];
+  const profile = resume.profile;
+  const skills = resume.skills;
+  const content = resume.content[languageId] ?? resume.content.ru;
+  const ui = uiText[languageId] ?? uiText.ru;
+  const projectTabs = content.projects.map((project, index) => ({
+    id: `project-${index}`,
+    label: projectTabLabel(project.name),
+    icon: <JsonIcon />,
+    projectIndex: index,
+  }));
+  const allFiles = [...files, ...projectTabs];
+  const currentFile =
+    allFiles.find((file) => file.id === activeFile) ?? allFiles[0];
   const statusTheme = themes.find((theme) => theme.id === themeId) ?? themes[0];
 
   function handleSelectFile(fileId) {
     setOpenTabs((tabs) => (tabs.includes(fileId) ? tabs : [...tabs, fileId]));
     setActiveFile(fileId);
+  }
+
+  function handleOpenProject(projectIndex) {
+    handleSelectFile(`project-${projectIndex}`);
   }
 
   function handleCloseTab(fileId) {
@@ -344,6 +562,17 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    document.documentElement.lang = languageId === "kz" ? "kk" : languageId;
+    document.title = `${profile.name} | ${ui.portfolio}`;
+
+    try {
+      window.localStorage.setItem("portfolio-language", languageId);
+    } catch {
+      return;
+    }
+  }, [languageId, profile.name, ui.portfolio]);
+
   async function handleToggleFullscreen() {
     if (document.fullscreenElement) {
       await document.exitFullscreen();
@@ -361,27 +590,35 @@ function App() {
           isFullscreen={isFullscreen}
           sidebarOpen={sidebarOpen}
           terminalOpen={terminalOpen}
+          languageId={languageId}
+          onLanguageChange={setLanguageId}
+          ui={ui}
           onToggleSidebar={() => setSidebarOpen((value) => !value)}
           onToggleTerminal={() => setTerminalOpen((value) => !value)}
           onToggleFullscreen={handleToggleFullscreen}
         />
-        <ActivityBar />
-        {sidebarOpen ? (
-          <Sidebar
-            activeFile={activeFile}
-            onSelect={handleSelectFile}
-            profile={resume.profile}
-          />
-        ) : (
-          <div className="side-panel side-panel-collapsed" />
-        )}
+        <ActivityBar ui={ui} />
+        <Sidebar
+          activeFile={activeFile}
+          onSelect={handleSelectFile}
+          profile={profile}
+          sidebarOpen={sidebarOpen}
+          ui={ui}
+          content={content}
+        />
         <Editor
           activeFile={activeFile}
           openTabs={openTabs}
+          allFiles={allFiles}
           onSelectFile={handleSelectFile}
           onCloseTab={handleCloseTab}
+          onOpenProject={handleOpenProject}
           currentFile={currentFile}
           terminalOpen={terminalOpen}
+          profile={profile}
+          skills={skills}
+          content={content}
+          ui={ui}
         />
         <StatusBar
           themeId={themeId}
@@ -389,6 +626,7 @@ function App() {
           statusTheme={statusTheme}
           activeFile={currentFile.label}
           terminalOpen={terminalOpen}
+          ui={ui}
         />
       </div>
     </div>
@@ -399,6 +637,9 @@ function TitleBar({
   isFullscreen,
   sidebarOpen,
   terminalOpen,
+  languageId,
+  onLanguageChange,
+  ui,
   onToggleSidebar,
   onToggleTerminal,
   onToggleFullscreen,
@@ -408,7 +649,7 @@ function TitleBar({
       <div className="title-app">
         <img className="title-app-logo" src={vscodeMark} alt="VS Code" />
       </div>
-      <div className="title-search" aria-label="Address bar">
+      <div className="title-search" aria-label={ui.addressBar}>
         <span className="title-search-icon" aria-hidden="true">
           <svg
             viewBox="0 0 24 24"
@@ -428,8 +669,8 @@ function TitleBar({
           type="button"
           className={`icon-pill ${sidebarOpen ? "icon-pill-active" : ""}`}
           onClick={onToggleSidebar}
-          title="Toggle Explorer"
-          aria-label="Toggle Explorer">
+          title={ui.toggleExplorer}
+          aria-label={ui.toggleExplorer}>
           <span className="menu-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -444,7 +685,6 @@ function TitleBar({
                   />
                 </mask>
               </defs>
-
               <rect
                 width="24"
                 height="24"
@@ -459,8 +699,8 @@ function TitleBar({
           type="button"
           className={`icon-pill ${terminalOpen ? "icon-pill-active" : ""}`}
           onClick={onToggleTerminal}
-          title="Toggle Terminal"
-          aria-label="Toggle Terminal">
+          title={ui.toggleTerminal}
+          aria-label={ui.toggleTerminal}>
           <span className="menu-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -476,7 +716,6 @@ function TitleBar({
                   />
                 </mask>
               </defs>
-
               <rect
                 width="24"
                 height="24"
@@ -488,30 +727,54 @@ function TitleBar({
           </span>
         </button>
       </div>
+      <div className="title-lang-switch">
+        {languageOptions.map((language) => (
+          <button
+            key={language.id}
+            type="button"
+            onClick={() => onLanguageChange(language.id)}
+            className={`title-lang-btn ${language.id === languageId ? "title-lang-btn-active" : ""}`}
+            title={language.name}>
+            {language.label}
+          </button>
+        ))}
+      </div>
       <div className="title-controls title-controls-windows">
-        <button type="button" className="win-btn" aria-label="Minimize">
+        <button
+          type="button"
+          className="win-btn"
+          aria-label={ui.minimize}
+          title={ui.minimize}>
           <span className="win-btn-line" />
         </button>
         <button
           type="button"
           className="win-btn"
-          aria-label="Maximize"
-          title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          aria-label={ui.maximize}
+          title={isFullscreen ? ui.exitFullscreen : ui.enterFullscreen}
           onClick={onToggleFullscreen}>
           <span className="win-btn-square" />
         </button>
         <button
           type="button"
           className="win-btn win-btn-close"
-          aria-label="Close">
-          <span className="win-btn-close-icon">✕</span>
+          aria-label={ui.close}
+          title={ui.close}>
+          <span className="win-btn-close-icon">x</span>
         </button>
       </div>
     </div>
   );
 }
 
-function ActivityBar() {
+function ActivityBar({ ui }) {
+  const titles = {
+    explorer: ui.activityExplorer,
+    search: ui.activitySearch,
+    git: ui.activityGit,
+    resume: ui.activityResume,
+  };
+
   return (
     <aside className="activity-bar">
       <div className="activity-stack">
@@ -520,7 +783,7 @@ function ActivityBar() {
             key={item.id}
             type="button"
             className={`activity-button ${index === 0 ? "activity-button-active" : ""}`}
-            title={item.id}>
+            title={titles[item.id]}>
             <span className="activity-icon">{item.icon}</span>
           </button>
         ))}
@@ -543,16 +806,17 @@ function ActivityBar() {
   );
 }
 
-function Sidebar({ activeFile, onSelect, profile }) {
+function Sidebar({ activeFile, onSelect, profile, sidebarOpen, ui, content }) {
   return (
-    <aside className="side-panel">
-      <div className="panel-header">Explorer</div>
+    <aside
+      className={`side-panel ${sidebarOpen ? "" : "side-panel-collapsed"}`}>
+      <div className="panel-header">{ui.explorer}</div>
       <div className="side-section">
         <p className="side-caption side-caption-folder">
           <span className="folder-icon">
             <FolderIcon />
           </span>
-          <span>Portfolio</span>
+          <span>{ui.portfolio}</span>
         </p>
         <div className="file-tree">
           {files.map((file) => (
@@ -568,29 +832,29 @@ function Sidebar({ activeFile, onSelect, profile }) {
         </div>
       </div>
       <div className="side-section side-section-links">
-        <p className="side-caption">links</p>
+        <p className="side-caption">{ui.links}</p>
         <div className="info-list">
           <InfoItem
-            label="Email"
+            label={ui.email}
             value={profile.email}
             href={`mailto:${profile.email}`}
           />
           <InfoItem
-            label="Phone"
+            label={ui.phone}
             value={profile.phone}
             href={`tel:${profile.phone}`}
           />
           <InfoItem
-            label="Telegram"
+            label={ui.telegram}
             value={profile.telegram}
             href={profile.telegramLink}
           />
           <InfoItem
-            label="WhatsApp"
+            label={ui.whatsapp}
             value={profile.phone}
             href={profile.whatsAppLink}
           />
-          <InfoItem label="Location" value={profile.location} />
+          <InfoItem label={ui.location} value={content.location} />
         </div>
       </div>
     </aside>
@@ -600,16 +864,28 @@ function Sidebar({ activeFile, onSelect, profile }) {
 function Editor({
   activeFile,
   openTabs,
+  allFiles,
   onSelectFile,
   onCloseTab,
+  onOpenProject,
   currentFile,
   terminalOpen,
+  profile,
+  skills,
+  content,
+  ui,
 }) {
+  const editorScrollRef = useRef(null);
+
+  useEffect(() => {
+    editorScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [activeFile]);
+
   return (
     <main className="editor-shell">
       <div className="tabs-bar">
         {openTabs.map((tabId) => {
-          const file = files.find((item) => item.id === tabId);
+          const file = allFiles.find((item) => item.id === tabId);
 
           if (!file) {
             return null;
@@ -630,9 +906,9 @@ function Editor({
                 type="button"
                 className="tab-close"
                 onClick={() => onCloseTab(file.id)}
-                aria-label={`Close ${file.label}`}
-                title={`Close ${file.label}`}>
-                ✕
+                aria-label={`${ui.close} ${file.label}`}
+                title={`${ui.close} ${file.label}`}>
+                x
               </button>
             </div>
           );
@@ -640,12 +916,12 @@ function Editor({
       </div>
 
       <div className="breadcrumbs-bar">
-        <span>Portfolio</span>
+        <span>{ui.portfolio}</span>
         <span>/</span>
         <span className="breadcrumbs-current">{currentFile.label}</span>
       </div>
 
-      <div className="editor-scroll">
+      <div ref={editorScrollRef} className="editor-scroll">
         <div className="editor-content">
           <div className="line-gutter">
             {Array.from({ length: 32 }, (_, index) => (
@@ -653,54 +929,90 @@ function Editor({
             ))}
           </div>
           <div className="editor-pane">
-            {activeFile === "home" && <HomeFile />}
-            {activeFile === "about" && <AboutFile />}
-            {activeFile === "experience" && <ExperienceFile />}
-            {activeFile === "projects" && <ProjectsFile />}
-            {activeFile === "contact" && <ContactFile />}
-            {activeFile === "readme" && <ReadmeFile />}
+            {activeFile === "home" && (
+              <HomeFile profile={profile} content={content} ui={ui} />
+            )}
+            {activeFile === "about" && (
+              <AboutFile content={content} skills={skills} ui={ui} />
+            )}
+            {activeFile === "experience" && (
+              <ExperienceFile content={content} ui={ui} />
+            )}
+            {activeFile === "projects" && (
+              <ProjectsFile
+                content={content}
+                ui={ui}
+                onOpenProject={onOpenProject}
+              />
+            )}
+            {activeFile.startsWith("project-") && (
+              <ProjectDetailFile
+                activeFile={activeFile}
+                content={content}
+                ui={ui}
+              />
+            )}
+            {activeFile === "contact" && (
+              <ContactFile profile={profile} content={content} ui={ui} />
+            )}
+            {activeFile === "readme" && (
+              <ReadmeFile
+                profile={profile}
+                content={content}
+                skills={skills}
+                ui={ui}
+              />
+            )}
           </div>
         </div>
       </div>
 
-      {terminalOpen ? <TerminalPanel /> : null}
+      <TerminalPanel
+        terminalOpen={terminalOpen}
+        profile={profile}
+        skills={skills}
+        content={content}
+        ui={ui}
+      />
     </main>
   );
 }
 
-function HomeFile() {
-  const { profile, stats } = resume;
-
+function HomeFile({ profile, content, ui }) {
   return (
     <section className="pane-block pane-hero">
       <p className="code-comment">{"// home.tsx"}</p>
       <div className="hero-grid">
         <div>
-          <p className="hero-kicker">Frontend portfolio / resume</p>
+          <p className="hero-kicker">{ui.heroKicker}</p>
           <h1 className="hero-title">{profile.name}</h1>
-          <p className="hero-role">{profile.role}</p>
-          <p className="hero-text">{profile.tagline}</p>
-          <p className="hero-text hero-text-dim">{profile.summary}</p>
+          <p className="hero-role">{content.role}</p>
+          <p className="hero-text">{content.tagline}</p>
+          <p className="hero-text hero-text-dim">{content.summary}</p>
           <div className="hero-actions">
             <a
               className="action-primary"
               href={profile.github}
               target="_blank"
               rel="noreferrer">
-              open github
+              {ui.openGithub}
             </a>
             <a className="action-secondary" href={`mailto:${profile.email}`}>
-              send email
+              {ui.sendEmail}
             </a>
           </div>
         </div>
         <div className="hero-meta">
           <div className="avatar-shell">
             <div className="avatar-ring" />
-            <div className="avatar-core">ZH</div>
+            <img
+              className="avatar-core avatar-photo"
+              src={profilePhoto}
+              alt={profile.name}
+            />
           </div>
           <div className="stats-grid">
-            {stats.map((item) => (
+            {content.stats.map((item) => (
               <div key={item.label} className="metric-card">
                 <p className="metric-value">{item.value}</p>
                 <p className="metric-label">{item.label}</p>
@@ -713,22 +1025,21 @@ function HomeFile() {
   );
 }
 
-function AboutFile() {
-  const { profile, strengths, skills, languages } = resume;
-
+function AboutFile({ content, skills, ui }) {
   return (
     <section className="pane-stack">
       <div className="pane-block">
-        <p className="code-comment"></p>
-        <h2 className="section-title">About</h2>
-        <p className="section-copy">{profile.summary}</p>
+        <p className="code-comment">about.md</p>
+        <h2 className="section-title">{ui.about}</h2>
+        <p className="section-copy">{content.tagline}</p>
+        <p className="section-copy">{content.summary}</p>
       </div>
 
       <div className="two-col-grid">
         <div className="pane-block">
           <p className="code-comment">strengths.map()</p>
           <div className="list-stack">
-            {strengths.map((item) => (
+            {content.strengths.map((item) => (
               <div key={item} className="plain-card">
                 {item}
               </div>
@@ -746,8 +1057,8 @@ function AboutFile() {
             ))}
           </div>
           <div className="terminal-mini">
-            <p className="code-comment">languages</p>
-            <p>{languages.join(" / ")}</p>
+            <p className="code-comment">{ui.languages.toLowerCase()}</p>
+            <p>{content.languages.join(" / ")}</p>
           </div>
         </div>
       </div>
@@ -755,16 +1066,14 @@ function AboutFile() {
   );
 }
 
-function ExperienceFile() {
-  const { experience, education } = resume;
-
+function ExperienceFile({ content, ui }) {
   return (
     <section className="pane-stack">
       <div className="pane-block">
         <p className="code-comment">export const experience = []</p>
-        <h2 className="section-title">Experience</h2>
+        <h2 className="section-title">{ui.experience}</h2>
         <div className="timeline">
-          {experience.map((item) => (
+          {content.experience.map((item) => (
             <article
               key={`${item.period}-${item.title}`}
               className="timeline-card">
@@ -774,6 +1083,9 @@ function ExperienceFile() {
                   <p className="card-subtitle">{item.company}</p>
                 </div>
                 <span className="card-period">{item.period}</span>
+              </div>
+              <div className="chip-wrap chip-wrap-compact">
+                <span className="token-chip">{item.stack}</span>
               </div>
               <p className="section-copy">{item.description}</p>
               <div className="bullet-stack">
@@ -790,12 +1102,15 @@ function ExperienceFile() {
       </div>
 
       <div className="pane-block">
-        <p className="code-comment">education</p>
+        <p className="code-comment">{ui.education.toLowerCase()}</p>
         <div className="list-stack">
-          {education.map((item) => (
+          {content.education.map((item) => (
             <div key={`${item.period}-${item.title}`} className="plain-card">
               <p className="card-period">{item.period}</p>
               <h3 className="card-title">{item.title}</h3>
+              <p className="card-subtitle">
+                {item.degree} · {item.field}
+              </p>
               <p className="section-copy">{item.description}</p>
             </div>
           ))}
@@ -805,15 +1120,13 @@ function ExperienceFile() {
   );
 }
 
-function ProjectsFile() {
-  const { projects } = resume;
-
+function ProjectsFile({ content, ui, onOpenProject }) {
   return (
     <section className="pane-block">
       <p className="code-comment">featuredProjects.json</p>
-      <h2 className="section-title">Projects</h2>
+      <h2 className="section-title">{ui.projects}</h2>
       <div className="project-grid">
-        {projects.map((project, index) => (
+        {content.projects.map((project, index) => (
           <article
             key={project.name}
             className="project-card"
@@ -822,17 +1135,27 @@ function ProjectsFile() {
               <div>
                 <h3 className="card-title">{project.name}</h3>
                 <p className="card-subtitle">{project.stack}</p>
+                <p className="section-copy project-focus">{project.focus}</p>
               </div>
-              <span className="project-tag">live</span>
+              <span className="project-tag">{project.type}</span>
             </div>
             <p className="section-copy">{project.description}</p>
-            <a
-              className="inline-link"
-              href={project.link}
-              target="_blank"
-              rel="noreferrer">
-              open project →
-            </a>
+            {projectPreviewMap[project.name] && (
+              <div className="project-preview">
+                <img
+                  src={projectPreviewMap[project.name]}
+                  alt={project.name}
+                  loading="lazy"
+                />
+              </div>
+            )}
+
+            <button
+              type="button"
+              className="inline-link project-open-button"
+              onClick={() => onOpenProject(index)}>
+              {ui.openProject}
+            </button>
           </article>
         ))}
       </div>
@@ -840,46 +1163,104 @@ function ProjectsFile() {
   );
 }
 
-function ContactFile() {
-  const { profile } = resume;
+function ProjectDetailFile({ activeFile, content, ui }) {
+  const projectIndex = Number(activeFile.replace("project-", ""));
+  const project = content.projects[projectIndex];
 
+  if (!project) {
+    return null;
+  }
+
+  return (
+    <section className="pane-stack">
+      <div className="pane-block">
+        <p className="code-comment">{projectTabLabel(project.name)}</p>
+        <div className="project-detail-head">
+          <div>
+            <h2 className="section-title">{project.name}</h2>
+            <p className="card-subtitle">{project.stack}</p>
+          </div>
+          <span className="project-tag">{project.type}</span>
+        </div>
+        <p className="section-copy project-focus">{project.focus}</p>
+        <p className="section-copy">{project.description}</p>
+        <div className="project-detail-grid">
+          <div className="plain-card">
+            <p className="code-comment">role</p>
+            <p className="section-copy">{project.role}</p>
+          </div>
+          <div className="plain-card">
+            <p className="code-comment">type</p>
+            <p className="section-copy">{project.type}</p>
+          </div>
+          <div className="plain-card">
+            <p className="code-comment">stack</p>
+            <p className="section-copy">{project.stack}</p>
+          </div>
+          <div className="plain-card">
+            <p className="code-comment">focus</p>
+            <p className="section-copy">{project.focus}</p>
+          </div>
+        </div>
+        <div className="bullet-stack project-highlights">
+          {project.highlights.map((item) => (
+            <div key={item} className="bullet-row">
+              <span className="bullet-dot" />
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="pane-block">
+        <p className="code-comment">preview.png</p>
+        <div className="project-detail-preview">
+          <img
+            src={projectPreviewMap[project.name]}
+            alt={project.name}
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactFile({ profile, content, ui }) {
   return (
     <section className="two-col-grid">
       <div className="pane-block">
         <p className="code-comment"></p>
-        <h2 className="section-title">Contact</h2>
-        <p className="section-copy">
-          Этот экран можно превратить в сильный CTA под поиск работы, фриланс
-          или networking.
-        </p>
+        <h2 className="section-title">{ui.contact}</h2>
+        <p className="section-copy">{content.contactIntro}</p>
         <div className="contact-grid">
           <ContactCard
-            label="email"
+            label={ui.email.toLowerCase()}
             value={profile.email}
             href={`mailto:${profile.email}`}
           />
           <ContactCard
-            label="phone"
+            label={ui.phone.toLowerCase()}
             value={profile.phone}
             href={`tel:${profile.phone}`}
           />
           <ContactCard
-            label="telegram"
+            label={ui.telegram.toLowerCase()}
             value={profile.telegram}
             href={profile.telegramLink}
           />
           <ContactCard
-            label="whatsapp"
+            label={ui.whatsapp.toLowerCase()}
             value={profile.phone}
             href={profile.whatsAppLink}
           />
           <ContactCard
-            label="github"
+            label={ui.github.toLowerCase()}
             value="github.com/zhandos998"
             href={profile.github}
           />
           <ContactCard
-            label="website"
+            label={ui.website.toLowerCase()}
             value={profile.website}
             href={profile.website}
           />
@@ -889,16 +1270,18 @@ function ContactFile() {
       <div className="pane-block">
         <p className="code-comment">contact.sh</p>
         <div className="terminal-mini">
-          <p>$ ./start-conversation</p>
+          <p>{ui.startConversation}</p>
           <p>
-            status: <span className="accent-green">available</span>
+            {ui.statusField}:{" "}
+            <span className="accent-green">{content.availability}</span>
           </p>
           <p>
-            location: <span className="accent-blue">{profile.location}</span>
+            {ui.locationField}:{" "}
+            <span className="accent-blue">{content.location}</span>
           </p>
           <p>
-            preferred_channel:{" "}
-            <span className="accent-pink">telegram / whatsapp</span>
+            {ui.preferredChannelField}:{" "}
+            <span className="accent-pink">{content.preferredChannel}</span>
           </p>
         </div>
       </div>
@@ -906,58 +1289,107 @@ function ContactFile() {
   );
 }
 
-function ReadmeFile() {
-  const { profile, skills, languages } = resume;
-
+function ReadmeFile({ profile, content, skills, ui }) {
   return (
     <section className="pane-block">
       <p className="code-comment">README.md</p>
       <h2 className="section-title">{profile.name}</h2>
       <p className="section-copy">
-        {profile.role} · {profile.location}
+        {content.role} · {content.location}
       </p>
       <div className="readme-stack">
-        <p className="section-copy">
-          <strong>Summary:</strong> {profile.tagline}
-        </p>
-        <p className="section-copy">
-          <strong>Languages:</strong> {languages.join(", ")}
-        </p>
-        <p className="section-copy">
-          <strong>Stack:</strong> {skills.join(", ")}
-        </p>
+        <div className="readme-section">
+          <p className="code-comment">## {ui.summary}</p>
+          <p className="section-copy">{content.summary}</p>
+          <div className="bullet-stack">
+            {content.strengths.map((item) => (
+              <div className="bullet-row" key={item}>
+                <span className="bullet-dot" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="readme-section">
+          <p className="code-comment">## {ui.stack}</p>
+          <div className="chip-wrap">
+            {skills.map((skill) => (
+              <span className="token-chip" key={skill}>
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="readme-section">
+          <p className="code-comment">## {ui.experience}</p>
+          <p className="section-copy">
+            <strong>{content.experience[0]?.title}</strong> @{" "}
+            {content.experience[0]?.company}
+          </p>
+          <p className="section-copy">{content.experience[0]?.period}</p>
+          <p className="section-copy">{content.experience[1]?.title}</p>
+        </div>
+        <div className="readme-section">
+          <p className="code-comment">## {ui.education}</p>
+          <div className="readme-list">
+            {content.education.map((item) => (
+              <p className="section-copy" key={`${item.title}-${item.period}`}>
+                <strong>{item.title}</strong> · {item.period}
+              </p>
+            ))}
+          </div>
+        </div>
+        <div className="readme-section">
+          <p className="code-comment">## {ui.languages}</p>
+          <p className="section-copy">{content.languages.join(" · ")}</p>
+        </div>
+        <div className="readme-section">
+          <p className="code-comment">## {ui.contact}</p>
+          <div className="readme-links">
+            <a href={`tel:${profile.phone}`}>{profile.phone}</a>
+            <a href={`mailto:${profile.email}`}>{profile.email}</a>
+            <a href={profile.github} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a href={profile.telegramLink} target="_blank" rel="noreferrer">
+              Telegram
+            </a>
+            <a href={profile.whatsAppLink} target="_blank" rel="noreferrer">
+              WhatsApp
+            </a>
+            <a href={profile.website} target="_blank" rel="noreferrer">
+              {profile.website}
+            </a>
+          </div>
+        </div>
       </div>
-      <div className="notice-box">
-        Это уже самостоятельный дизайн в editor-стилистике. Дальше я могу еще
-        сильнее приблизить ощущения за счет курсора, command palette, анимаций и
-        более точного desktop chrome.
-      </div>
+      <div className="notice-box">{content.readmeNotice}</div>
     </section>
   );
 }
 
-function TerminalPanel() {
-  const { profile, skills, languages } = resume;
-
+function TerminalPanel({ terminalOpen, profile, skills, content, ui }) {
   return (
-    <section className="terminal-panel">
+    <section
+      className={`terminal-panel ${terminalOpen ? "" : "terminal-panel-closed"}`}>
       <div className="terminal-head">
-        <div className="terminal-title">TERMINAL</div>
+        <div className="terminal-title">{ui.terminal}</div>
         <div className="terminal-title">zhandos@portfolio</div>
       </div>
       <div className="terminal-body">
-        <p className="terminal-line terminal-dim">$ npm run profile</p>
+        <p className="terminal-line terminal-dim">{ui.terminalCommand}</p>
         <p className="terminal-line">
-          name: <span className="accent-blue">{profile.name}</span>
+          {ui.nameField}: <span className="accent-blue">{profile.name}</span>
         </p>
         <p className="terminal-line">
-          role: <span className="accent-green">{profile.role}</span>
+          {ui.roleField}: <span className="accent-green">{content.role}</span>
         </p>
         <p className="terminal-line">
-          languages: <span className="accent-pink">{languages.join(", ")}</span>
+          {ui.languagesField}:{" "}
+          <span className="accent-pink">{content.languages.join(", ")}</span>
         </p>
         <p className="terminal-line">
-          top skills:{" "}
+          {ui.topSkillsField}:{" "}
           <span className="accent-orange">{skills.slice(0, 5).join(", ")}</span>
         </p>
       </div>
@@ -971,25 +1403,27 @@ function StatusBar({
   statusTheme,
   activeFile,
   terminalOpen,
+  ui,
 }) {
   return (
     <footer className="status-bar">
       <div className="status-left">
         <span>main</span>
         <span>{activeFile}</span>
-        <span>{terminalOpen ? "terminal: open" : "terminal: closed"}</span>
+        <span>{terminalOpen ? ui.terminalOpen : ui.terminalClosed}</span>
       </div>
       <div className="status-right">
-        {themes.map((theme) => (
-          <button
-            key={theme.id}
-            type="button"
-            onClick={() => onThemeChange(theme.id)}
-            className={`status-theme ${theme.id === themeId ? "status-theme-active" : ""}`}>
-            {theme.label}
-          </button>
-        ))}
-        <span>{statusTheme.label}</span>
+        <div className="status-group">
+          {themes.map((theme) => (
+            <button
+              key={theme.id}
+              type="button"
+              onClick={() => onThemeChange(theme.id)}
+              className={`status-theme ${theme.id === themeId ? "status-theme-active" : ""}`}>
+              {theme.label}
+            </button>
+          ))}
+        </div>
       </div>
     </footer>
   );
