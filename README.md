@@ -1,18 +1,18 @@
-# Resume Website
+# zhandos998.github.io
 
-Одностраничный сайт-резюме на `React + Vite + Tailwind CSS`.
+Portfolio/resume website built with `React`, `Vite`, and `Tailwind CSS`.
 
-## Запуск
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Что менять
+## Main Content
 
-Основные данные для резюме лежат в `src/data/resume.js`.
+Resume and portfolio data lives in `src/data/resume.js`.
 
-## Деплой
+## Deploy
 
-Для GitHub Pages добавлен workflow: `.github/workflows/deploy.yml`.
+GitHub Pages deploy is configured in `.github/workflows/deploy.yml`.

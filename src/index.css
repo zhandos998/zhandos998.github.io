@@ -299,12 +299,6 @@ a {
   background: rgba(255, 255, 255, 0.06);
 }
 
-.icon-pill:hover .menu-icon,
-.icon-pill:focus-visible .menu-icon,
-.icon-pill-active .menu-icon {
-  transform: translate(-1.5px, 1.5px);
-}
-
 .title-menu-controls {
   margin-left: auto;
   margin-right: 8px;
@@ -333,10 +327,6 @@ a {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition:
-    transform 180ms ease,
-    opacity 180ms ease;
-  transform: translate(0, 0);
 }
 
 .menu-icon svg {
