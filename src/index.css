@@ -1274,6 +1274,105 @@ a {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.skills-grid {
+  display: grid;
+  max-width: 1100px;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.skill-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--skill-accent) 85%, transparent);
+}
+
+.skills-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.skill-group-title {
+  margin: 0;
+  color: var(--yellow);
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.skill-group-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 7px;
+  border: 1px solid color-mix(in srgb, var(--skill-accent) 35%, var(--border));
+  color: var(--skill-accent);
+  font-size: 11px;
+}
+
+.skill-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skill-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.skill-name {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.skill-level {
+  color: var(--skill-accent);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.skill-bar {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  display: block;
+  height: 100%;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--skill-accent) 88%, white 10%),
+      var(--skill-accent)
+    );
+  box-shadow: 0 0 24px color-mix(in srgb, var(--skill-accent) 18%, transparent);
+}
+
 .search-item {
   display: flex;
   align-items: center;
@@ -1485,6 +1584,7 @@ a {
   .hero-grid,
   .two-col-grid,
   .project-grid,
+  .skills-grid,
   .contact-grid,
   .project-detail-grid,
   .search-grid {

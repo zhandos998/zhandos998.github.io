@@ -151,6 +151,28 @@ function JsonIcon() {
   );
 }
 
+function SkillsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="2.5" y="2.5" width="19" height="19" rx="3.4" fill="#252525" />
+      <path
+        d="M9.25 7.5c-1.4 0-2.15.82-2.15 2.2v1.15c0 .7-.24 1.12-.95 1.48.71.36.95.78.95 1.48v1.15c0 1.38.75 2.2 2.15 2.2"
+        stroke="#FACC15"
+        strokeWidth="1.55"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14.75 7.5c1.4 0 2.15.82 2.15 2.2v1.15c0 .7.24 1.12.95 1.48-.71.36-.95.78-.95 1.48v1.15c0 1.38-.75 2.2-2.15 2.2"
+        stroke="#A3E635"
+        strokeWidth="1.55"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function SearchIcon() {
   return (
     <svg
@@ -239,11 +261,96 @@ const themes = [
   { id: "nord", label: "Nord" },
 ];
 
+const skillGroups = [
+  {
+    id: "frontend",
+    color: "#FACC15",
+    items: [
+      { label: "JavaScript", level: 90 },
+      { label: "React", level: 88 },
+      { label: "Vue", level: 82 },
+      { label: "Tailwind CSS", level: 88 },
+      { label: "Vite", level: 84 },
+      { label: "HTML / CSS", level: 92 },
+    ],
+  },
+  {
+    id: "backend",
+    color: "#34D399",
+    items: [
+      { label: "Laravel", level: 92 },
+      { label: "PHP", level: 88 },
+      { label: "REST API", level: 86 },
+      { label: "Python", level: 74 },
+    ],
+  },
+  {
+    id: "databases",
+    color: "#60A5FA",
+    items: [
+      { label: "SQL", level: 90 },
+      { label: "PostgreSQL", level: 86 },
+      { label: "MySQL", level: 84 },
+    ],
+  },
+  {
+    id: "workflow",
+    color: "#C084FC",
+    items: [
+      { label: "Git", level: 88 },
+      { label: "Linux", level: 82 },
+      { label: "Admin Panels", level: 90 },
+      { label: "Deployment", level: 78 },
+    ],
+  },
+];
+
+const skillsPageText = {
+  ru: {
+    title: "Навыки",
+    comment: "// skills.json - стек и инструменты, которые я использую в реальных проектах",
+    lead: '{ "status": "production_ready", "focus": "full_stack_web", "mode": "always_learning" }',
+    note: "Технологии, с которыми я работаю в коммерческих и внутренних web-проектах.",
+    groups: {
+      frontend: "Frontend",
+      backend: "Backend & API",
+      databases: "Базы данных",
+      workflow: "Инструменты и workflow",
+    },
+  },
+  kz: {
+    title: "Дағдылар",
+    comment:
+      "// skills.json - нақты жобаларда қолданатын стек пен құралдар",
+    lead: '{ "status": "production_ready", "focus": "full_stack_web", "mode": "always_learning" }',
+    note: "Коммерциялық және ішкі web-жобаларда қолданатын технологияларым.",
+    groups: {
+      frontend: "Frontend",
+      backend: "Backend & API",
+      databases: "Дерекқорлар",
+      workflow: "Құралдар және workflow",
+    },
+  },
+  en: {
+    title: "Skills",
+    comment: "// skills.json - stack and tools I use in real projects",
+    lead: '{ "status": "production_ready", "focus": "full_stack_web", "mode": "always_learning" }',
+    note: "Technologies I use across commercial and in-house web products.",
+    groups: {
+      frontend: "Frontend",
+      backend: "Backend & API",
+      databases: "Databases",
+      workflow: "Tools & workflow",
+    },
+  },
+};
+
 const files = [
   { id: "home", label: "home.php", icon: <PhpIcon /> },
   { id: "about", label: "about.js", icon: <JsIcon /> },
   { id: "experience", label: "experience.py", icon: <PythonIcon /> },
   { id: "projects", label: "projects.json", icon: <JsonIcon /> },
+  { id: "skills", label: "skills.json", icon: <SkillsIcon /> },
   { id: "contact", label: "contact.jsx", icon: <ReactIcon /> },
   { id: "readme", label: "README.md", icon: <MarkdownIcon /> },
 ];
@@ -527,6 +634,7 @@ function App() {
   const skills = resume.skills;
   const content = resume.content[languageId] ?? resume.content.ru;
   const ui = uiText[languageId] ?? uiText.ru;
+  const skillsPage = skillsPageText[languageId] ?? skillsPageText.ru;
   const projectTabs = content.projects.map((project, index) => ({
     id: `project-${index}`,
     label: projectTabLabel(project.name),
@@ -649,6 +757,7 @@ function App() {
           terminalOpen={terminalOpen}
           profile={profile}
           skills={skills}
+          skillsPage={skillsPage}
           content={content}
           ui={ui}
         />
@@ -946,6 +1055,7 @@ function Editor({
   terminalOpen,
   profile,
   skills,
+  skillsPage,
   content,
   ui,
 }) {
@@ -1028,6 +1138,9 @@ function Editor({
                 ui={ui}
                 onOpenProject={onOpenProject}
               />
+            )}
+            {activeFile === "skills" && (
+              <SkillsFile skillsPage={skillsPage} skillGroups={skillGroups} />
             )}
             {activeFile.startsWith("project-") && (
               <ProjectDetailFile
@@ -1264,6 +1377,49 @@ function ProjectsFile({ content, ui, onOpenProject }) {
               onClick={() => onOpenProject(index)}>
               {ui.openProject}
             </button>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SkillsFile({ skillsPage, skillGroups }) {
+  return (
+    <section className="pane-stack">
+      <div className="pane-block">
+        <p className="code-comment">{skillsPage.comment}</p>
+        <h2 className="section-title">{skillsPage.title}</h2>
+        <p className="section-copy">{skillsPage.lead}</p>
+        <p className="section-copy">{skillsPage.note}</p>
+      </div>
+
+      <div className="skills-grid">
+        {skillGroups.map((group) => (
+          <article
+            key={group.id}
+            className="pane-block skill-card"
+            style={{ "--skill-accent": group.color }}>
+            <div className="skills-group-head">
+              <p className="skill-group-title">{skillsPage.groups[group.id]}</p>
+              <span className="skill-group-badge">{group.items.length}</span>
+            </div>
+            <div className="skill-rows">
+              {group.items.map((item) => (
+                <div key={item.label} className="skill-row">
+                  <div className="skill-row-head">
+                    <span className="skill-name">{item.label}</span>
+                    <span className="skill-level">{item.level}%</span>
+                  </div>
+                  <div className="skill-bar">
+                    <span
+                      className="skill-bar-fill"
+                      style={{ width: `${item.level}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           </article>
         ))}
       </div>
