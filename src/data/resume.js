@@ -384,7 +384,7 @@ export const resume = {
         },
       ],
       languages: [
-        "Kazakh: Native or Bilingual",
+        "Kazakh: Native",
         "Russian: Fluent",
         "English: Basic",
       ],

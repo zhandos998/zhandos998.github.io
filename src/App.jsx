@@ -151,6 +151,22 @@ function JsonIcon() {
   );
 }
 
+function SearchIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true">
+      <circle cx="11" cy="11" r="6" />
+      <path d="M20 20l-4.2-4.2" />
+    </svg>
+  );
+}
+
 function ReactIcon() {
   return (
     <svg viewBox="0 0 128 128" aria-hidden="true">
@@ -232,6 +248,12 @@ const files = [
   { id: "readme", label: "README.md", icon: <MarkdownIcon /> },
 ];
 
+const searchFile = {
+  id: "search",
+  label: "search",
+  icon: <SearchIcon />,
+};
+
 const activityItems = [
   {
     id: "explorer",
@@ -249,18 +271,7 @@ const activityItems = [
   },
   {
     id: "search",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        width="22"
-        height="22"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.4">
-        <circle cx="11" cy="11" r="8" />
-        <path d="m21 21-4.35-4.35" />
-      </svg>
-    ),
+    icon: <SearchIcon />,
   },
   {
     id: "git",
@@ -286,16 +297,18 @@ const activityItems = [
     id: "resume",
     icon: (
       <svg
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round">
-        <path d="M7 4.5h7l4 4v11H7z" />
-        <path d="M14 4.5v4h4" />
-        <path d="M9.5 13h6" />
-        <path d="M9.5 16.5h6" />
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="12" y1="11" x2="12" y2="17" />
+        <polyline points="9 14 12 17 15 14" />
       </svg>
     ),
   },
@@ -493,10 +506,18 @@ function projectTabLabel(projectName) {
   return "project.case";
 }
 
+function getInitialSidebarOpen() {
+  if (typeof window === "undefined") {
+    return true;
+  }
+
+  return window.innerWidth > 767;
+}
+
 function App() {
   const [activeFile, setActiveFile] = useState("home");
   const [openTabs, setOpenTabs] = useState(["home"]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(getInitialSidebarOpen);
   const [terminalOpen, setTerminalOpen] = useState(true);
   const [themeId, setThemeId] = useState("vscode-dark");
   const [languageId, setLanguageId] = useState(getInitialLanguage);
@@ -512,7 +533,7 @@ function App() {
     icon: <JsonIcon />,
     projectIndex: index,
   }));
-  const allFiles = [...files, ...projectTabs];
+  const allFiles = [searchFile, ...files, ...projectTabs];
   const currentFile =
     allFiles.find((file) => file.id === activeFile) ?? allFiles[0];
   const statusTheme = themes.find((theme) => theme.id === themeId) ?? themes[0];
@@ -520,6 +541,10 @@ function App() {
   function handleSelectFile(fileId) {
     setOpenTabs((tabs) => (tabs.includes(fileId) ? tabs : [...tabs, fileId]));
     setActiveFile(fileId);
+
+    if (typeof window !== "undefined" && window.innerWidth <= 767) {
+      setSidebarOpen(false);
+    }
   }
 
   function handleOpenProject(projectIndex) {
@@ -585,6 +610,7 @@ function App() {
   return (
     <div data-theme={themeId} className="app-root">
       <div className="ambient-bg" />
+      <CustomCursor />
       <div className={`app-grid ${sidebarOpen ? "" : "app-grid-collapsed"}`}>
         <TitleBar
           isFullscreen={isFullscreen}
@@ -593,11 +619,17 @@ function App() {
           languageId={languageId}
           onLanguageChange={setLanguageId}
           ui={ui}
+          onOpenSearch={() => handleSelectFile("search")}
           onToggleSidebar={() => setSidebarOpen((value) => !value)}
           onToggleTerminal={() => setTerminalOpen((value) => !value)}
           onToggleFullscreen={handleToggleFullscreen}
         />
-        <ActivityBar ui={ui} />
+        <ActivityBar
+          githubUrl={profile.github}
+          ui={ui}
+          onOpenSearch={() => handleSelectFile("search")}
+          onToggleSidebar={() => setSidebarOpen((value) => !value)}
+        />
         <Sidebar
           activeFile={activeFile}
           onSelect={handleSelectFile}
@@ -640,30 +672,56 @@ function TitleBar({
   languageId,
   onLanguageChange,
   ui,
+  onOpenSearch,
   onToggleSidebar,
   onToggleTerminal,
   onToggleFullscreen,
 }) {
   return (
     <div className="title-bar">
-      <div className="title-app">
-        <img className="title-app-logo" src={vscodeMark} alt="VS Code" />
-      </div>
-      <div className="title-search" aria-label={ui.addressBar}>
-        <span className="title-search-icon" aria-hidden="true">
+      <button
+        type="button"
+        className={`title-app title-app-toggle ${sidebarOpen ? "title-app-toggle-active" : ""}`}
+        onClick={onToggleSidebar}
+        title={ui.toggleExplorer}
+        aria-label={ui.toggleExplorer}>
+        <span className="burger-icon" aria-hidden="true">
           <svg
+            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round">
-            <circle cx="11" cy="11" r="6" />
-            <path d="M20 20l-4.2-4.2" />
+            fill="none">
+            <path
+              d="M4 18L20 18"
+              stroke="#46A0FF"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M4 12L20 12"
+              stroke="#46A0FF"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M4 6L20 6"
+              stroke="#46A0FF"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </span>
+      </button>
+      <button
+        type="button"
+        className="title-search title-search-button"
+        aria-label={ui.addressBar}
+        title={ui.activitySearch}
+        onClick={onOpenSearch}>
+        <span className="title-search-icon" aria-hidden="true">
+          <SearchIcon />
+        </span>
         <span className="title-search-text">zhandos998.github.io</span>
-      </div>
+      </button>
       <div className="menu-group menu-controls title-menu-controls">
         <button
           type="button"
@@ -767,7 +825,7 @@ function TitleBar({
   );
 }
 
-function ActivityBar({ ui }) {
+function ActivityBar({ githubUrl, ui, onOpenSearch, onToggleSidebar }) {
   const titles = {
     explorer: ui.activityExplorer,
     search: ui.activitySearch,
@@ -778,12 +836,28 @@ function ActivityBar({ ui }) {
   return (
     <aside className="activity-bar">
       <div className="activity-stack">
+        <div className="activity-logo" aria-hidden="true">
+          <img className="activity-logo-mark" src={vscodeMark} alt="" />
+        </div>
         {activityItems.map((item, index) => (
           <button
             key={item.id}
             type="button"
             className={`activity-button ${index === 0 ? "activity-button-active" : ""}`}
-            title={titles[item.id]}>
+            title={titles[item.id]}
+            onClick={() => {
+              if (item.id === "explorer") {
+                onToggleSidebar();
+              }
+
+              if (item.id === "search") {
+                onOpenSearch();
+              }
+
+              if (item.id === "git") {
+                window.open(githubUrl, "_blank", "noopener,noreferrer");
+              }
+            }}>
             <span className="activity-icon">{item.icon}</span>
           </button>
         ))}
@@ -876,6 +950,7 @@ function Editor({
   ui,
 }) {
   const editorScrollRef = useRef(null);
+  const searchTargets = allFiles.filter((item) => item.id !== "search");
 
   useEffect(() => {
     editorScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
@@ -900,7 +975,7 @@ function Editor({
                 className="tab-main"
                 onClick={() => onSelectFile(file.id)}>
                 <span className="tab-icon">{file.icon}</span>
-                <span>{file.label}</span>
+                <span className="tab-label">{file.label}</span>
               </button>
               <button
                 type="button"
@@ -931,6 +1006,15 @@ function Editor({
           <div className="editor-pane">
             {activeFile === "home" && (
               <HomeFile profile={profile} content={content} ui={ui} />
+            )}
+            {activeFile === "search" && (
+              <SearchFile
+                activeFile={activeFile}
+                openTabs={openTabs}
+                searchTargets={searchTargets}
+                onSelectFile={onSelectFile}
+                ui={ui}
+              />
             )}
             {activeFile === "about" && (
               <AboutFile content={content} skills={skills} ui={ui} />
@@ -975,6 +1059,41 @@ function Editor({
         ui={ui}
       />
     </main>
+  );
+}
+
+function SearchFile({ activeFile, openTabs, searchTargets, onSelectFile, ui }) {
+  return (
+    <section className="pane-stack">
+      <div className="pane-block">
+        <p className="code-comment">search.index</p>
+        <h2 className="section-title">{ui.activitySearch}</h2>
+        <div className="search-grid">
+          {searchTargets.map((file) => {
+            const isOpen = openTabs.includes(file.id);
+            const isActive =
+              file.id === activeFile ||
+              (activeFile.startsWith("project-") && file.id === activeFile);
+
+            return (
+              <button
+                key={file.id}
+                type="button"
+                className={`search-item ${isActive ? "search-item-active" : ""}`}
+                onClick={() => onSelectFile(file.id)}>
+                <span className="search-item-icon">{file.icon}</span>
+                <span className="search-item-text">
+                  <span className="search-item-label">{file.label}</span>
+                  <span className="search-item-meta">
+                    {isOpen ? "open tab" : "available"}
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1108,9 +1227,7 @@ function ExperienceFile({ content, ui }) {
             <div key={`${item.period}-${item.title}`} className="plain-card">
               <p className="card-period">{item.period}</p>
               <h3 className="card-title">{item.title}</h3>
-              <p className="card-subtitle">
-                {item.degree} · {item.field}
-              </p>
+              <p className="card-subtitle">{item.degree} · {item.field}</p>
               <p className="section-copy">{item.description}</p>
             </div>
           ))}
@@ -1140,15 +1257,6 @@ function ProjectsFile({ content, ui, onOpenProject }) {
               <span className="project-tag">{project.type}</span>
             </div>
             <p className="section-copy">{project.description}</p>
-            {projectPreviewMap[project.name] && (
-              <div className="project-preview">
-                <img
-                  src={projectPreviewMap[project.name]}
-                  alt={project.name}
-                  loading="lazy"
-                />
-              </div>
-            )}
 
             <button
               type="button"
@@ -1294,9 +1402,7 @@ function ReadmeFile({ profile, content, skills, ui }) {
     <section className="pane-block">
       <p className="code-comment">README.md</p>
       <h2 className="section-title">{profile.name}</h2>
-      <p className="section-copy">
-        {content.role} · {content.location}
-      </p>
+      <p className="section-copy">{content.role} · {content.location}</p>
       <div className="readme-stack">
         <div className="readme-section">
           <p className="code-comment">## {ui.summary}</p>
@@ -1426,6 +1532,106 @@ function StatusBar({
         </div>
       </div>
     </footer>
+  );
+}
+
+function CustomCursor() {
+  const shellRef = useRef(null);
+  const trailRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const media = window.matchMedia("(pointer: fine)");
+
+    if (!media.matches) {
+      return undefined;
+    }
+
+    const target = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    let lastSpawnTime = 0;
+    let lastSpawnX = target.x;
+    let lastSpawnY = target.y;
+
+    function spawnTrailBit(x, y) {
+      if (!trailRef.current) {
+        return;
+      }
+
+      const bit = document.createElement("span");
+      bit.className = "custom-cursor-bit";
+      bit.textContent = Math.random() > 0.5 ? "0" : "1";
+      bit.style.left = `${x + (Math.random() * 14 - 7)}px`;
+      bit.style.top = `${y + (Math.random() * 14 - 7)}px`;
+      bit.style.setProperty("--trail-dx", `${Math.random() * 18 - 9}px`);
+      bit.style.setProperty("--trail-dy", `${10 + Math.random() * 18}px`);
+      bit.style.animationDuration = `${420 + Math.random() * 220}ms`;
+      trailRef.current.appendChild(bit);
+
+      window.setTimeout(() => {
+        bit.remove();
+      }, 760);
+    }
+
+    function handleMove(event) {
+      target.x = event.clientX;
+      target.y = event.clientY;
+      shellRef.current?.classList.add("custom-cursor-visible");
+      if (shellRef.current) {
+        shellRef.current.style.transform = `translate3d(${target.x}px, ${target.y}px, 0)`;
+      }
+
+      const now = window.performance.now();
+      const distance = Math.hypot(event.clientX - lastSpawnX, event.clientY - lastSpawnY);
+
+      if (now - lastSpawnTime > 26 && distance > 7) {
+        spawnTrailBit(event.clientX, event.clientY);
+        lastSpawnTime = now;
+        lastSpawnX = event.clientX;
+        lastSpawnY = event.clientY;
+      }
+    }
+
+    function handleLeave() {
+      shellRef.current?.classList.remove("custom-cursor-visible");
+    }
+
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseleave", handleLeave);
+    window.addEventListener("blur", handleLeave);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseleave", handleLeave);
+      window.removeEventListener("blur", handleLeave);
+    };
+  }, []);
+
+    return (
+    <>
+      <div ref={trailRef} className="custom-cursor-trail" aria-hidden="true" />
+      <div ref={shellRef} className="custom-cursor-shell" aria-hidden="true">
+        <svg
+          className="custom-cursor-svg"
+          viewBox="0 0 837 1024"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            className="custom-cursor-back"
+            d="M99 72L158 987L349 712L714 776Q732 779 720 760Z"
+          />
+          <path
+            className="custom-cursor-front"
+            d="M100 74L157 954L340 689L692 751Q710 754 700 740Z"
+          />
+          <path
+            className="custom-cursor-spark"
+            d="M706 916C719 912 725 906 729 893C733 906 740 912 753 916C740 920 733 927 729 940C725 927 719 920 706 916Z"
+          />
+        </svg>
+      </div>
+    </>
   );
 }
 
